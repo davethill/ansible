@@ -1,0 +1,16 @@
+---
+- name: Install zsh
+  hosts: debian
+  become: true
+  become_user: dave
+  tasks:
+    - name: Install zsh
+      apt:
+        name: zsh
+        state: present
+    - name: Zsh facts
+      shell: 'echo $SHELL'
+      register: default_shell
+    - name: Set zsh as default shell
+      user: name=dave shell=/usr/bin/zsh
+      sudo: true

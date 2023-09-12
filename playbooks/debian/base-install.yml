@@ -1,0 +1,39 @@
+---
+- name: Install Applications
+  hosts: lab
+  become: true
+  become_user: root
+  tasks:
+    - name: Install zsh
+      apt:
+        name: 
+          - zsh
+          - zsh-syntax-highlighting
+          - zsh-autosuggestions
+          - python3-pip
+          - gcc
+          - python3-dev
+          - make
+          - git
+          - libpangocairo-1.0-0
+          - python3-xcffib
+          - python3-cairocffi
+          - neovim
+          - htop
+          - neofetch
+          - exa
+        state: present
+    - name: Clone a github repository
+      git:
+        repo: https://github.com/davethill/dotfiles.git
+        dest: /home/dave/dotfiles
+        clone: true
+        update: true
+    - name: Copying the zshenv
+      copy:
+        src: /home/dave/dotfiles/.zshenv
+        dest: /home/dave/
+    - name: Copying the Directory's contents (sub directories/files)
+      copy:
+        src: /home/dave/dotfiles/
+        dest: /home/dave/.config
