@@ -1,5 +1,5 @@
 ---
-- name: Install Applications
+- name: Install My QTile Setup
   hosts: qtile
   become: true
   become_user: root
