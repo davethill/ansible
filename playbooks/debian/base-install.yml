@@ -4,9 +4,9 @@
   become: true
   become_user: root
   tasks:
-    - name: Install zsh
+    - name: Install Packages
       apt:
-        name: 
+        name:
           - zsh
           - zsh-syntax-highlighting
           - zsh-autosuggestions
@@ -22,6 +22,8 @@
           - htop
           - neofetch
           - exa
+          - zip
+          - unzip
         state: present
     - name: Clone a github repository
       git:
