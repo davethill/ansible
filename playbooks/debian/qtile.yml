@@ -93,7 +93,7 @@
         dest: /home/dave/
         owner: dave
         mode: '0751'
-    - name: Copying the Directory's contents (sub directories/files)
+    - name: Copying the Dotfiles to .config
       copy:
         src: /home/dave/dotfiles/
         dest: /home/dave/.config
