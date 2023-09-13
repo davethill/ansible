@@ -91,10 +91,14 @@
       copy:
         src: /home/dave/dotfiles/.zshenv
         dest: /home/dave/
+        owner: dave
+        mode: '0751'
     - name: Copying the Directory's contents (sub directories/files)
       copy:
         src: /home/dave/dotfiles/
         dest: /home/dave/.config
+        owner: dave
+        mode: '0751'
     - name: Delete python3 externally managed
       file:
         state: absent
@@ -119,3 +123,9 @@
           Exec=qtile start
           Type=Application
           Keywords=wm;tiling
+    - name: Set Shell
+      user:
+        name: dave
+        shell: /bin/zsh
+    - name: Reboot
+      reboot:
