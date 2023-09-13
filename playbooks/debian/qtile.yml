@@ -57,7 +57,7 @@
           - texlive-fonts-extra
           - fonts-roboto
           - fonts-hanazono
-          - sddm
+          - lightdm
           - alsa-utils
           - pavucontrol
         state: present
@@ -76,9 +76,9 @@
         name: cups
         enabled: true
         masked: false
-    - name: Enable sddm
+    - name: Enable lightdm
       systemd:
-        name: sddm
+        name: lightdm
         enabled: true
         masked: false
     - name: Clone a github repository
