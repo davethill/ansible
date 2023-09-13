@@ -99,6 +99,9 @@
       file:
         state: absent
         path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+    - name: Install psutil
+      pip:
+        name: psutil
     - name: Install qtile
       pip:
         name: git+https://github.com/qtile/qtile
