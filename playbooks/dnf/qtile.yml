@@ -1,0 +1,131 @@
+---
+- name: Install My QTile Setup
+  hosts: qtile
+  become: true
+  become_user: root
+  tasks:
+    - name: Install Packages
+      dnf:
+        name:
+          - zsh
+          - zsh-syntax-highlighting
+          - zsh-autosuggestions
+          - python3-pip
+          - gcc
+          - python3-dev
+          - make
+          - git
+          - libpangocairo-1.0-0
+          - python3-xcffib
+          - python3-cairocffi
+          - neovim
+          - htop
+          - neofetch
+          - exa
+          - zip
+          - unzip
+          - xorg
+          - xinit
+          - arandr
+          - pcmanfm
+          - ranger
+          - ueberzug
+          - udiskie
+          - nextcloud-desktop
+          - dialog
+          - mtools
+          - dosfstools
+          - avahi-daemon
+          - acpi
+          - acpid
+          - gvfs-backends
+          - xfce4-power-manager
+          - build-essential
+          - libpam0g-dev
+          - libxcb-xkb-dev
+          - alacritty
+          - cups
+          - chromium
+          - feh
+          - nitrogen
+          - flameshot
+          - picom
+          - sxhkd
+          - rofi
+          - fonts-jetbrains-mono
+          - papirus-icon-theme
+          - texlive-fonts-extra
+          - fonts-roboto
+          - fonts-hanazono
+          - lightdm
+          - alsa-utils
+          - pavucontrol
+        state: present
+    - name: Enable avahi-daemon
+      systemd:
+        name: avahi-daemon
+        enabled: true
+        masked: false
+    - name: Enable acpid
+      systemd:
+        name: acpid
+        enabled: true
+        masked: false
+    - name: Enable cups
+      systemd:
+        name: cups
+        enabled: true
+        masked: false
+    - name: Enable lightdm
+      systemd:
+        name: lightdm
+        enabled: true
+        masked: false
+    - name: Clone a github repository
+      git:
+        repo: https://github.com/davethill/dotfiles.git
+        dest: /home/dave/dotfiles
+        clone: true
+        update: true
+    - name: Copying the zshenv
+      copy:
+        src: /home/dave/dotfiles/.zshenv
+        dest: /home/dave/
+        owner: dave
+        mode: '0751'
+    - name: Copying the Dotfiles to .config
+      copy:
+        src: /home/dave/dotfiles/
+        dest: /home/dave/.config
+        owner: dave
+        mode: '0751'
+    - name: Delete python3 externally managed
+      file:
+        state: absent
+        path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+    - name: Install psutil
+      pip:
+        name: psutil
+    - name: Install qtile
+      pip:
+        name: git+https://github.com/qtile/qtile
+    - name: Create qtile.desktop
+      file:
+        path: /usr/share/xsessions/qtile.desktop
+        state: touch
+    - name: Write qtile.desktop
+      copy:
+        dest: /usr/share/xsessions/qtile.desktop
+        content: |
+          [Desktop Entry]
+          Name=Qtile
+          Comment=Qtile Session
+          Exec=qtile start
+          Type=Application
+          Keywords=wm;tiling
+    - name: Set Shell
+      user:
+        name: dave
+        shell: /bin/zsh
+    - name: Reboot
+      reboot:
